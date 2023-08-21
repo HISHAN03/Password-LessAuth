@@ -13,7 +13,7 @@ export default function App() {
         <Route path="*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>
-  );
+  );  
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

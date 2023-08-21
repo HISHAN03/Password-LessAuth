@@ -1,12 +1,35 @@
+import io from "socket.io-client";
 import React, { useState } from 'react';
 import './app.css';
+import axios from 'axios';
+
+const socket = io.connect('http://localhost:5000');
 
 const Login = () => {
-  const [isLogin, setIsLogin] = useState(true); // State to toggle between login and register
-
-  const toggleMode = () => {
+  const [isLogin, setIsLogin] = useState(true); 
+  const [Mail,SetMail]=useState(true);
+  const toggleMode = () => 
+    {
     setIsLogin(!isLogin);
-  };
+    };
+
+    async function handleSubmit(ev) {
+      try {
+        ev.preventDefault();
+        const url = isLogin === 'register' ? 'register' : 'login';
+        console.log("request sent")
+        const { data } = await axios.get(`http://localhost:5000/wwe`);
+        console.log("request recieved")
+        
+        // Handle the response data here
+        console.log(data);
+      } catch (error) {
+        // Handle errors that occur during the request
+        console.error("An error occurred:", error);
+      }
+    }
+    
+    
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -14,12 +37,13 @@ const Login = () => {
         <h2 className="text-lg font-bold mb-4">
           {isLogin ? 'Login' : 'Register'}
         </h2>
-        <form>
+        <form onSubmit={handleSubmit} >
           <input
             type="email"
             placeholder="Email address"
             className="w-full p-2 border rounded mb-4"
             required
+            onChange={(ev=>SetMail(ev.target.value))}
           />
           <input
             type="submit"
