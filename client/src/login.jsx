@@ -16,18 +16,19 @@ const Login = () => {
     async function handleSubmit(ev) {
       try {
         ev.preventDefault();
-        const url = isLogin === 'register' ? 'register' : 'login';
-        console.log("request sent")
-        const { data } = await axios.get(`http://localhost:5000/wwe`);
-        console.log("request recieved")
-        
-        // Handle the response data here
-        console.log(data);
+        const url = isLogin ? 'login' : 'register';
+        const gmail = {
+          email: Mail,
+        };
+        console.log('Request sent');
+        console.log('URL:', `http://localhost:5000/${url}`);
+        const response = await axios.post(`http://localhost:5000/${url}`, gmail);
+        console.log('Response received:', response.data);
       } catch (error) {
-        // Handle errors that occur during the request
-        console.error("An error occurred:", error);
+        console.error('An error occurred:', error);
       }
     }
+    
     
     
 
