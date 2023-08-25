@@ -20,7 +20,8 @@ app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
+  
+   next();
   });
 const dotenv = require("dotenv");
 dotenv.config();
@@ -30,6 +31,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.json());
+
+
 
 io.on("connection", (socket) => {
   socket.emit("me", socket.id);
@@ -105,11 +108,12 @@ app.post("/login", (req, res) => {
 
 
 app.post("/register", async (req, res) => {
-	const email = req.body.Mail;
+	const email = req.body.gmail;
+  console.log(email)
 	try {
 	  const newEmail = await Email.create({
 		email: email,});
-  
+   
 	  console.log("User registered:", newEmail);
 	  res.send("User registered successfully");
 	} catch (error) {
@@ -137,6 +141,7 @@ app.post("/register", async (req, res) => {
   
   
   })
+
 
 
 
