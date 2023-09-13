@@ -6,7 +6,7 @@ const emailSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  // Other fields you want to store for each user
+  
 });
 
 const Email = mongoose.model("Email", emailSchema);

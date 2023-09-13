@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import './app.css';
 const socket = io.connect('http://localhost:5000');
 
+
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true); 
   const [Mail,SetMail]=useState(true);
@@ -17,30 +18,31 @@ async function hds()
     const res= await fetch(`http://localhost:5000/wwe`)
     console.log(res)
     console.log("reached ")
-  }catch(e){
+    }
+    catch(e){
     console.log(e)
+    }}
+
     
-  }
-}
-async function handleSubmit(ev) {
-  try {
-    ev.preventDefault();
-    const url = isLogin ? 'login' : 'register';
-    const email = Mail; // Assuming Mail contains the email
+
+ async function handleSubmit(ev) {
+   try {
+     ev.preventDefault();
+     const url = isLogin ? 'login' : 'register';
+     const email = Mail; 
+     console.log('Request sending');
     
-    console.log('Request sending');
+     const dataToSend = {
+       gmail: email  
+     };
     
-    const dataToSend = {
-      gmail: email  // Use the property name "gmail" to match the backend expectation
-    };
-    
-    const response = await fetch(`http://localhost:5000/${url}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(dataToSend), // Send the JSON object in the body
-    });
+     const response = await fetch(`http://localhost:5000/${url}`, {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+       },
+       body: JSON.stringify(dataToSend), // Send the JSON object in the body
+     });
     
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -53,10 +55,6 @@ async function handleSubmit(ev) {
   }
 }
 
-    
-    
-    
-    
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="bg-red p-8 rounded shadow-md w-80 text-center">

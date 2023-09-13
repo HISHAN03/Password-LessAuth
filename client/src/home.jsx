@@ -8,6 +8,8 @@ const socket = io.connect('http://localhost:5000');
 
 function Home() 
 {
+  const [isCameraOn, setIsCameraOn] = useState(false);
+  const [isAudioOn, setIsAudioOn] = useState(false);
   const [me, setMe] = useState("");
   const [stream, setStream] = useState();
   const [receivingCall, setReceivingCall] = useState(false);
@@ -18,6 +20,7 @@ function Home()
   const [callEnded, setCallEnded] = useState(false);
   const [name, setName] = useState("");
   const myVideo = useRef();
+  
   const userVideo = useRef();
   const connectionRef = useRef();
 

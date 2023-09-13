@@ -62,21 +62,17 @@ var transporter = nodemailer.createTransport({
     pass: process.env.PASS,
   },
 });
-app.get("/wwe",(req,res)=>{
-  res.send("hellllo")
-})
+
 app.post("/login", (req, res) => {
   const umail = req.body.gmail;
-  console.log(umail);
-
   Email.find({ email: umail })
     .then(users => {
       if (users.length > 0) {
         const user = users[0];
         console.log(user);
-
         try {
-          const token = jwt.sign({ userID: user.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+          console.log("USER"+user)
+          const token = jwt.sign({ userID: user.email}, process.env.JWT_SECRET, { expiresIn: "1h" });
           var mailOptions = {
             from: process.env.EMAIL,
             to: user.email,
@@ -123,24 +119,33 @@ app.post("/register", async (req, res) => {
   });
 
 
-  app.get("/verify",(req,res)=>
-  {
-    const token=req.query.token
-    if(token==null)return res.sendStatus(401)
-   
-    try
-    {
-    const declaredToken=jwt.verify(token,process.env.JWT_SECRET)
-    const user=Email.find(u=>u.id==declaredToken.userId)
-    res.send(`AUthed as ${user.name}`)
-    }
-    catch(e)
-    {
-    res.sendStatus(401)
-    }
+  app.get("/verify", async (req, res) => {
+    const token = req.query.token;
+    if (token == null) return res.sendStatus(401);
   
+    try {
+      const declaredToken = jwt.verify(token, process.env.JWT_SECRET);
+      console.log(declaredToken);
+      console.log('email verified ');
   
-  })
+      const user = await Email.findOne({ email: declaredToken.userID }); 
+      // Use findOne instead of find
+      console.log(user)
+      console.log('username found');
+      
+      if (user) {
+       // res.send(`Authenticated as ${user._id}`);
+        //`<a href="http://localhost:5000/verify?token=${token}">Log in</a>`
+        res.redirect('http://localhost:3000/login');
+      } else {
+        res.sendStatus(401); // User not found
+      }
+    } catch (e) {
+      console.error(e);
+      res.sendStatus(401);
+    }
+  });
+  
 
 
 
