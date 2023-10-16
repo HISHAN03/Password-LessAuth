@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom"; 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./login";
-import Home from "./home";
+import Hello from "./Hello";
 import NoPage from "./NoPage";
 
 
@@ -11,7 +11,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Home />} />
+        <Route path="/login" element={<Hello />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>

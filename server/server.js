@@ -1,28 +1,17 @@
 const express = require("express");
-const http = require("http");
 const mongoose = require("mongoose");
 const Email = require("./UserModel")
+const cors = require('cors');
 const nodemailer = require("nodemailer");
 const bodyParser = require("body-parser");
 const app = express();
 const jwt =require("jsonwebtoken")
-const server = http.createServer(app);
-const io = require("socket.io")(server,{
-  cors:
-  {
-    origin:"http://localhost:3000"
-  }
+app.use(cors({
+  origin: 'http://localhost:3000',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, 
+}));
 
-})
-
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  
-   next();
-  });
 const dotenv = require("dotenv");
 dotenv.config();
 mongoose.connect(process.env.MONGO_URL,{ useNewUrlParser: true, useUnifiedTopology: true }).then(() => { console.log("mongodb-connected");});
@@ -34,25 +23,7 @@ app.use(express.json());
 
 
 
-io.on("connection", (socket) => {
-  socket.emit("me", socket.id);
 
-  socket.on("disconnect", () => {
-    socket.broadcast.emit("callEnded");
-  });
-
-  socket.on("callUser", (data) => {
-    io.to(data.userToCall).emit("callUser", {
-      signal: data.signalData,
-      from: data.from,
-      name: data.name,
-    });
-  });
-
-  socket.on("answerCall", (data) => {
-    io.to(data.to).emit("callAccepted", data.signal);
-  });
-});
 
 
 var transporter = nodemailer.createTransport({
@@ -150,4 +121,4 @@ app.post("/register", async (req, res) => {
 
 
 
-server.listen(5000, () => console.log("server is running on port 5000"));
+app.listen(5000, () => console.log("server is running on port 5000"));

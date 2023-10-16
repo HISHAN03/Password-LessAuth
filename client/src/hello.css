@@ -1,0 +1,22 @@
+/* styles.css */
+.container {
+    display: flex;
+    flexDirection: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .title {
+    font-size: 36px;
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-weight: bold; /* Added to make the text bold */
+  }
+  
+  .message {
+    font-size: 24px;
+    color: #666;
+    margin-top: 20px;
+  }
+  
