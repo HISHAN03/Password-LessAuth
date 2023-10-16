@@ -28,8 +28,8 @@ To run the app locally, follow these steps:
 1. **Clone the repository:**
 
    ```sh
-   git clone https://github.com/yourusername/passwordless-login-webapp.git
-   cd passwordless-login-webapp
+   git clone https://github.com/HISHAN03/passwordless-login-webapp.git
+   cd PasswordLess-login
 
 2. **Install Dependencies::**
    ```sh
@@ -68,5 +68,5 @@ We welcome contributions from the community. If you'd like to contribute to the 
 2. **Clone Your Fork:**
 
    ```sh
-   git clone https://github.com/yourusername/passwordless-login-webapp.git
-   cd passwordless-login-webapp
+   git clone https://github.com/HISHAN03/PasswordLess-login.git
+   cd PasswordLess-login
