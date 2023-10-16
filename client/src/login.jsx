@@ -50,6 +50,7 @@ const Login = () => {
 
       if (!response.ok) {
         if (response.status === 404) {
+         
           let timerInterval;
           Swal.fire({
             title: "No email found please register first",

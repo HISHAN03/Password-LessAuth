@@ -15,16 +15,9 @@ app.use(cors({
 const dotenv = require("dotenv");
 dotenv.config();
 mongoose.connect(process.env.MONGO_URL,{ useNewUrlParser: true, useUnifiedTopology: true }).then(() => { console.log("mongodb-connected");});
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(express.json());
-
-
-
-
-
 
 var transporter = nodemailer.createTransport({
   service: "gmail",
@@ -44,11 +37,17 @@ app.post("/login", (req, res) => {
         try {
           console.log("USER"+user)
           const token = jwt.sign({ userID: user.email}, process.env.JWT_SECRET, { expiresIn: "1h" });
+          res.cookie('accessToken', token, {
+            httpOnly: true, 
+            sameSite: 'None', 
+            secure: true, 
+            maxAge: 3600000, 
+          });
           var mailOptions = {
             from: process.env.EMAIL,
             to: user.email,
             subject: "Sending Email using Node.js",
-            html: `<a href="http://localhost:5000/verify?token=${token}">Log in</a>`,
+            html: `<a href="http://localhost:3000/login">Log in</a>`,
           };
           transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
@@ -80,10 +79,10 @@ app.post("/register", async (req, res) => {
 	try {
 	  const newEmail = await Email.create({
 		email: email,});
-   
 	  console.log("User registered:", newEmail);
 	  res.send("User registered successfully");
-	} catch (error) {
+	  } 
+  catch (error) {
 	  console.error("Error registering user:", error);
 	  res.status(500).send("Error registering user");
 	}
@@ -93,32 +92,27 @@ app.post("/register", async (req, res) => {
   app.get("/verify", async (req, res) => {
     const token = req.query.token;
     if (token == null) return res.sendStatus(401);
-  
     try {
       const declaredToken = jwt.verify(token, process.env.JWT_SECRET);
       console.log(declaredToken);
       console.log('email verified ');
-  
       const user = await Email.findOne({ email: declaredToken.userID }); 
-      // Use findOne instead of find
       console.log(user)
       console.log('username found');
       
       if (user) {
-       // res.send(`Authenticated as ${user._id}`);
-        //`<a href="http://localhost:5000/verify?token=${token}">Log in</a>`
-        res.redirect('http://localhost:3000/login');
+       //res.send(`Authenticated as ${user._id}`);
+        `<a href="http://localhost:3000/login">Log in</a>`
+        //res.redirect('http://localhost:3000/login');
       } else {
-        res.sendStatus(401); // User not found
+        res.sendStatus(401);
       }
-    } catch (e) {
+    } catch (e) { 
       console.error(e);
       res.sendStatus(401);
     }
   });
   
-
-
-
+  
 
 app.listen(5000, () => console.log("server is running on port 5000"));
