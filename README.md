@@ -11,10 +11,10 @@ Eliminate the need for traditional passwords with this passwordless login web ap
 
 ## Features
 
-✉️ **Passwordless Login**: Say goodbye to passwords.
-📝 **User Registration**: Quick and easy registration with just an email.
-💌 **Email Authentication**: Secure authentication via email links.
-🏠 **Home Page Access**: Automatically redirected to the home page upon verification.
+-✉️ **Passwordless Login**: Say goodbye to passwords.
+-📝 **User Registration**: Quick and easy registration with just an email.
+-💌 **Email Authentication**: Secure authentication via email links.
+-🏠 **Home Page Access**: Automatically redirected to the home page upon verification.
 
 ## Packages  Used
 
